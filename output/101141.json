@@ -1,0 +1,46 @@
+[
+  {
+    "id": "LE-'337250",
+    "title": "Proyecto ''Icono 559''",
+    "original_url": "https://www.laencontre.com.pe/inmueble/337250",
+    "original_pictures": [
+      "https://d3rny71whgunfp.cloudfront.net/eyJidWNrZXQiOiJyZXNlbS1wZSIsImtleSI6IjE2NDM3NjIyMzc5NDlfNDY3MzQwNjAucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo4NDAsImhlaWdodCI6NjMwLCJmaXQiOiJjb3ZlciIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+      "https://d3rny71whgunfp.cloudfront.net/eyJidWNrZXQiOiJyZXNlbS1wZSIsImtleSI6IjE2Mzc3NzQ5NzM1NjFfMTYyNjM4MTg3NC5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjg0MCwiaGVpZ2h0Ijo2MzAsImZpdCI6ImNvdmVyIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19",
+      "https://d3rny71whgunfp.cloudfront.net/eyJidWNrZXQiOiJyZXNlbS1wZSIsImtleSI6IjE2Mzc3NzU0MTgzMzdfLTY1ODI3MzQwNy5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjg0MCwiaGVpZ2h0Ijo2MzAsImZpdCI6ImNvdmVyIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19"
+    ],
+    "description": "Modernos departamentos en Miraflores de concepto privado sin tantas áreas comunes que minimizan el pago del mantenimiento.  Ubicado a 1 cuadra del malecón de Miraflores y a 2 cuadras de la Av. Santa Cruz.    82m2 - 2 dorm - 21/2 baños - 1 estacionamiento + deposito  162 a 165m2 - 3 dorm - 5 baños - 1 estacionamiento + deposito  ° DISTRIBUCION:  - Sala amplia y espaciosa con vista parcial al malecón con el ejercito.  - Cocina independiente  - Grifería de alta gama   - Ventanas aislantes de ruido  - Instalación de gas  - Pisos laminados de alto transito y porcelanato  - Dormitorios amplios funcionales con muy buena iluminación y ventilación.  - 2 a 4 baños   - Baño de visita  - Balcón con vista parcial al malecón y General Mendiburu  - Lavandería  - Estacionamiento accesibles  ° CARACTERISTICAS:  - Ubicado en el 4° y 7°piso  - Departamentos de estreno / independizados  - Departamentos con muy buena distribución  - Con diseño de optimizar pasadizos para obtener mas ambientes.    ENTREGA INMEDIATA",
+    "property_type": {
+      "name": "Proyecto",
+      "slug": "proyecto"
+    },
+    "operation_type": {
+      "name": "Venta",
+      "slug": "venta"
+    },
+    "usd_price": 182450.0,
+    "local_price": 680538.5,
+    "total_area": 82,
+    "build_area": 82,
+    "bedrooms": -3,
+    "bathrooms": 3,
+    "garages": null,
+    "years_old": null,
+    "location": {
+      "address": "Localización: Santa cruz, Miraflores, Lima",
+      "country": "Peru",
+      "region": "Lima Departamento",
+      "province": "Lima",
+      "district": "Miraflores",
+      "zone": "",
+      "geo_point": {
+        "lat": -12.11576057711699,
+        "lon": -77.04478848672107
+      },
+      "country_slug": "peru",
+      "region_slug": "lima departamento",
+      "province_slug": "lima",
+      "district_slug": "miraflores",
+      "zone_slug": ""
+    }
+  }
+]
