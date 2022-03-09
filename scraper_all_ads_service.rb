@@ -10,105 +10,100 @@ class ScraperAllAdsService
   end
 
   def dollar_value
-    base_url_dollar = "https://cuantoestaeldolar.pe/"
+    base_url_dollar = 'https://cuantoestaeldolar.pe/'
     html = URI.open("#{base_url_dollar}").read
     doc = Nokogiri::HTML(html, nil, "utf-8")
     value = doc.xpath('/html/body/div[3]/section/div[1]/div[3]/div/div[1]/div/div/div[3]/div[2]').attribute("data-compra").value.to_f
+    # @dollar_result = value
   end
 
   def scraping_ads_per_page(html_per_page)
-    dollar_result = dollar_value()
-
+    dollar_value = 3.73
     doc_per_page = Nokogiri::HTML(html_per_page, nil, 'utf-8')
-
     doc_per_page.search('.vivienda-item').each do |element|
       title = element.search('.flash').first.attribute('alt').value.strip
       property_href = element.search('.title a').first.attribute('href').value.strip
-      base_url = "https://www.laencontre.com.pe"
+      base_url = 'https://www.laencontre.com.pe'
       property_url = base_url + property_href
       property_html = URI.open(property_url).read
       id = property_href.split('/')[2]
-
-      # property details
       property_doc = Nokogiri::HTML(property_html, nil, 'utf-8')
-      #original_pictures = property_doc.css('.mfp-gallery').map do |element|
-      #  element['href']
-      #end
+      # Para el reto se captura sólo las primeras 3 fotos de querer todo retira '.first(3)'
+      original_pictures = property_doc.css('.mfp-gallery').first(3).map do |element|
+        element['href']
+      end
 
-      property_description = property_doc.search('.description').text
+      location_data = property_doc.search('.elementBC.detail-bread-li').map(&:text)
+      region = location_data[2].strip
+      province = location_data[3].strip
+      district = location_data[4].strip
 
-      firstLine = property_doc.search('#firstLine h1').text
-      info = firstLine.split(' ')
+      property_description =  property_doc.search('.description').text != '' ? property_doc.search('.description').text : ''
+      head_title = property_doc.search('title').text != '' ? property_doc.search('title').text.split(' ') : ''
+      address = property_doc.search('.location h2').text != '' ? property_doc.search('.location h2').text : ''
 
       property_type = {
-        'name':info[0],
-        'slug':info[0].downcase
+        'name': head_title[1].capitalize,
+        'slug': head_title[1].downcase
       }
       operation_type = {
-        'name':info[2],
-        'slug':info[2].downcase
+        'name': head_title[0].capitalize,
+        'slug': head_title[0].downcase
       }
 
-      caracteristicas = property_doc.search('.priceChars')
-      price_sc = caracteristicas.search('.price h2').text
-      #p price_sc
-      price = price_sc.split(' ')[1].tr(',','').to_i
+      specifications = property_doc.search('.priceChars')
+      price_dollars = specifications.search('.price h2').text != '' ? specifications.search('.price h2').text.split('$')[1].strip.tr(',', '').to_f : 0
 
-      masdatos = caracteristicas.search('.details_list')
-      dimensions = masdatos.search('.dimensions').text
-      # p dimensions
+      details_list = specifications.search('.details_list')
+      dimensions = details_list.search('.dimensions').text != '' ? details_list.search('.dimensions').text.split('m2')[0].to_i : 0
 
-      bedrooms = masdatos.search('.bedrooms').text
-      bedrooms_value = bedrooms.tr('m2','').to_i
+      bedrooms = details_list.search('.bedrooms').text
+      bedrooms_value = bedrooms.tr('m2', '').to_i
 
-      bathrooms = masdatos.search('.bathrooms').text
-      # p bathrooms
+      bathrooms = details_list.search('.bathrooms').text != '' ? details_list.search('.bathrooms').text.split('Baño')[0].split('-')[0].to_i : 0
 
       geolocation = property_doc.search('#see-map')
       geo_point = {
         'lat': geolocation.attribute('data-x').value.to_f,
         'lon': geolocation.attribute('data-y').value.to_f
       }
-      # p geo_point
 
       @catalog << Ad.new(
-        id: 'LE-' + id,
+        id: "LE-'#{id}",
         title: title,
         original_url: property_url,
-        original_pictures: '',
+        original_pictures: original_pictures,
         description: property_description,
         property_type: property_type,
         operation_type: operation_type,
-        usd_price: price,
-        local_price: (price*dollar_result).round(2),
-        total_area: 0,
-        build_area: 0,
+        usd_price: price_dollars,
+        local_price: (price_dollars * dollar_value).round(2),
+        total_area: dimensions,
+        build_area: dimensions,
         bedrooms: bedrooms_value,
         bathrooms: bathrooms,
         garages: nil,
         years_old: nil,
         location: {
-          address: '',
-          country: '',
-          region: '',
-          province: '',
-          district: '',
+          address: address,
+          country: 'Peru',
+          region: region,
+          province: province,
+          district: district,
           zone: '',
           geo_point: geo_point,
-          country_slug: '',
-          region_slug: '',
-          province_slug: '',
-          district_slug: '',
+          country_slug: 'peru',
+          region_slug: region.downcase,
+          province_slug: province.downcase,
+          district_slug: district.downcase,
           zone_slug: ''
-        },
+        }
       )
     end
   end
 
   def pages_per_operation_results(url_operation_type)
-
     html_operation_type = URI.open(url_operation_type).read
-
     # 1. Parse HTML
     doc_operation_type = Nokogiri::HTML(html_operation_type, nil, 'utf-8')
     # 2. For all results
@@ -124,15 +119,15 @@ class ScraperAllAdsService
   end
 
   def call
-    puts "Buscando..." 
+    puts 'Buscando...'
     begin
-      html = URI.open(@url_realestate_id).read
+      URI.open(@url_realestate_id).read
     rescue OpenURI::HTTPError
       return
-    end 
+    end
     url_rentals = "#{@url_realestate_id}/alquiler/propiedades"
     url_sales = "#{@url_realestate_id}/venta/propiedades"
-    puts "Scraping..."
+    puts 'Scraping...'
     pages_per_operation_results(url_rentals)
     pages_per_operation_results(url_sales)
     @catalog
