@@ -25,6 +25,7 @@ class ScraperAllAdsService
       property_href = element.search('.title a').first.attribute('href').value.strip
       base_url = 'https://www.laencontre.com.pe'
       property_url = base_url + property_href
+      puts property_url
       property_html = URI.open(property_url).read
       id = property_href.split('/')[2]
       property_doc = Nokogiri::HTML(property_html, nil, 'utf-8')
@@ -34,9 +35,9 @@ class ScraperAllAdsService
       end
 
       location_data = property_doc.search('.elementBC.detail-bread-li').map(&:text)
-      region = location_data[2].strip
-      province = location_data[3].strip
-      district = location_data[4].strip
+      region = location_data[2].nil? ? '' : location_data[2].strip
+      province = location_data[3].nil? ? '' : location_data[3].strip
+      district = location_data[4].nil? ? '' : location_data[4].strip
 
       property_description =  property_doc.search('.description').text != '' ? property_doc.search('.description').text : ''
       head_title = property_doc.search('title').text != '' ? property_doc.search('title').text.split(' ') : ''
