@@ -23,7 +23,7 @@ class Controller
     else
       puts "Guardando #{ads_count} anuncios..."
     end
-    File.write("./#{@realestate.id}.json", JSON.dump(catalog_json))
+    File.write("./output/#{@realestate.id}.json", JSON.pretty_generate(catalog_json))
     puts "Archivo #{@realestate.id}.json creado"
   end
 end
